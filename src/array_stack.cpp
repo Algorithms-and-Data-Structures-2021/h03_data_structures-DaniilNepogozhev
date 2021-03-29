@@ -11,15 +11,24 @@ ArrayStack::ArrayStack(int capacity) {
     throw std::invalid_argument("initial capacity must be greater than zero");
   }
 
-  // TODO: напишите здесь свой код ...
+  capacity_ = capacity;
+  size_ = 0;
+  data_ = new Element[capacity_]{};
 }
 
 ArrayStack::~ArrayStack() {
-  // TODO: напишите здесь свой код ...
+  delete[] data_;
+  data_ = nullptr;
+  capacity_ = 0;
+  size_ = 0;
 }
 
 void ArrayStack::Push(Element e) {
-  // TODO: напишите здесь свой код ...
+  if (size_ == capacity_){
+      resize(capacity_+kCapacityGrowthCoefficient);
+  }
+  data_[size_] = e;
+  size_ += 1;
 }
 
 void ArrayStack::Pop() {
@@ -27,17 +36,25 @@ void ArrayStack::Pop() {
     throw std::logic_error("cannot pop out from empty stack");
   }
 
-  // TODO: напишите здесь свой код ...
+  data_[size_-1] = Element::UNDEFINED;
+  size_ -= 1;
 }
 
 void ArrayStack::Clear() {
-  // TODO: напишите здесь свой код ...
+  for(int i = 0; i < size_; i++){
+      data_[i] = Element::UNDEFINED;
+  }
+  size_ = 0;
 }
 
 void ArrayStack::resize(int new_capacity) {
   assert(new_capacity > size_);
 
-  // TODO: напишите здесь свой код ...
+  auto* new_data = new Element[new_capacity]{};
+  std::copy(data_, data_+capacity_, new_data);
+  delete[] data_;
+  data_ = new_data;
+  capacity_ = new_capacity;
 }
 
 // === РЕАЛИЗОВАНО ===
